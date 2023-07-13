@@ -7,13 +7,15 @@ module Tweetkit
     class Tweets
       include Enumerable
 
-      attr_accessor :annotations, :connection, :context_annotations, :entity_annotations, :expansions, :fields, :meta, :options, :original_response, :response, :tweets, :twitter_request
+      attr_accessor :headers, :status, :annotations, :connection, :context_annotations, :entity_annotations, :expansions, :fields, :meta, :options, :original_response, :response, :tweets, :twitter_request
 
       def initialize(response, **options)
         parse! response, **options
       end
 
       def parse!(response, **options)
+        @headers = response.headers
+        @status = response.status
         parse_response response
         extract_and_save_tweets
         return unless @tweets
